@@ -2,6 +2,7 @@ package kg.company.blogProject.entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -41,9 +42,9 @@ public class Post {
     @JoinColumn(name = "category_id")
     Category category;
 
-    @DateTimeFormat
+    @CreatedDate
     @Column(name = "publication_time")
-    Date publicationTime;
+    Date publicationTime = new Date();
 
     @Column(name = "short_description")
     String shortDescription;

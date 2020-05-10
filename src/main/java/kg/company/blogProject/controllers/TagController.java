@@ -47,8 +47,4 @@ public class TagController {
         return tagService.getAllTagsByTagText(tag);
     }
 
-    @GetMapping("/byPost/{id}")
-    public List<Tag> getByPost(@PathVariable("id") Long id) {
-        return tagService.getAllTagsByPost(id);
-    }
 }

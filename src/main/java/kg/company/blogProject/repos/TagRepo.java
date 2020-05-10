@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface TagRepo extends JpaRepository<Tag, Long> {
     List<Tag> getAllByTagText(String tagText);
-    @Query("FROM Post_Tag where post_id = :postId")
-    List<Tag> getAllByPost(Long postId);
+//    @Query("FROM Post_Tag where post_id = :postId")
+//    List<Tag> getAllByPost(Long postId);
 }
