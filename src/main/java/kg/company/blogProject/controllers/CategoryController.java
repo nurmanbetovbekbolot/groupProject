@@ -37,11 +37,12 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> delete(@PathVariable("id") Long id) {
-        categoryService.deleteCategoryById(id);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        if(categoryService.deleteCategoryById(id)) {
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/byName/{name}")
     public List<Category> getByName(@PathVariable("name") String name) {
         return categoryService.getAllCategoriesByName(name);
     }

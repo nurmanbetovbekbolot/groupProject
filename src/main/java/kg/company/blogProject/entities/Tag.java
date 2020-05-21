@@ -21,7 +21,4 @@ public class Tag {
 
     @Column(name = "tag_text")
     String tagText;
-
-    @ManyToMany(mappedBy = "tags")
-    List<Post> posts;
 }

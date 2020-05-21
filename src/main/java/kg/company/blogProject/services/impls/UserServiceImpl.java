@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
             existingUser.setLastName(user.getLastName());
             existingUser.setEmail(user.getEmail());
             existingUser.setMobilePhone(user.getMobilePhone());
-            existingUser.setPasswordHash(user.getPasswordHash());
+            existingUser.setPassword(user.getPassword());
             existingUser.setRegistrationDate(user.getRegistrationDate());
             existingUser.setIntro(user.getIntro());
             existingUser.setRole(user.getRole());
@@ -52,10 +52,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String deleteUserById(Long id) {
-        String result = "deleted " + userRepo.findById(id);
+    public Boolean deleteUserById(Long id) {
         userRepo.deleteById(id);
-        return result;
+        if(userRepo.findById(id).isPresent()) {
+            return false;
+        } else return true;
     }
 
     @Override

@@ -44,10 +44,11 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public String deleteMediaById(Long id) {
-        String result = "deleted " + mediaRepo.findById(id);
+    public Boolean deleteMediaById(Long id) {
         mediaRepo.deleteById(id);
-        return result;
+        if(mediaRepo.findById(id).isPresent()) {
+            return false;
+        } else return true;
     }
 
     @Override

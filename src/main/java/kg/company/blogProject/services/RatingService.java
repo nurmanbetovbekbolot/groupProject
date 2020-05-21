@@ -10,7 +10,7 @@ public interface RatingService {
     Rating getRatingById(Long id);
     List<Rating> getAllRatings();
     Rating updateRating(Long id, Rating rating);
-    String deleteRatingById(Long id);
+    Boolean deleteRatingById(Long id);
     List<Rating> getAllByValue(Integer value);
     List<Rating> getAllRatingsByPostId(Long postId);
     List<Rating> getAllRatingsByUserId(Long userId);

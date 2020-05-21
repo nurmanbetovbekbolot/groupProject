@@ -17,7 +17,7 @@ public class RatingController {
     RatingService ratingService;
 
     @PostMapping
-    public Rating save(Rating rating) {
+    public Rating save(@RequestBody Rating rating) {
         return ratingService.save(rating);
     }
 
@@ -38,8 +38,9 @@ public class RatingController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> delete(@PathVariable("id") Long id) {
-        ratingService.deleteRatingById(id);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        if(ratingService.deleteRatingById(id)) {
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/byValue/{value}")

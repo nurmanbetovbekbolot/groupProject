@@ -3,7 +3,7 @@ package kg.company.blogProject.entities;
 import kg.company.blogProject.enums.Role;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -22,28 +22,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    @Column(name = "nickname")
+    @Column(name = "nickname", nullable = false, unique = true)
     String nickname;
 
-    @Column(name = "password_hash")
-    String passwordHash;
+    @Column(name = "password", nullable = false)
+    String password;
 
     @Email
     @Column(name = "email")
     String email;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     String lastName;
 
     @Column(name = "mobile_phone")
     String mobilePhone;
 
-    @DateTimeFormat
+    @CreatedDate
     @Column(name = "registration_date")
-    Date registrationDate;
+    Date registrationDate = new Date();
 
     @Column(name = "intro")
     String intro;

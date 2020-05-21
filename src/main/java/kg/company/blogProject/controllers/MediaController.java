@@ -38,11 +38,12 @@ public class MediaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> delete(@PathVariable("id") Long id) {
-        mediaService.deleteMediaById(id);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        if(mediaService.deleteMediaById(id)) {
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/{type}")
+    @GetMapping("/byType/{type}")
     public List<Media> getByType(@PathVariable("type") MediaType type) {
         return mediaService.getAllMediaByType(type);
     }

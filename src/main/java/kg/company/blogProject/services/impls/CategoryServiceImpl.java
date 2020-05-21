@@ -42,10 +42,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String deleteCategoryById(Long categoryId) {
-        String result = "deleted " + categoryRepo.findById(categoryId);
+    public Boolean deleteCategoryById(Long categoryId) {
         categoryRepo.deleteById(categoryId);
-        return result;
+        if(categoryRepo.findById(categoryId).isPresent()) {
+            return false;
+        } else return true;
     }
 
     @Override

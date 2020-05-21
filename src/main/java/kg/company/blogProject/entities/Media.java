@@ -20,7 +20,7 @@ public class Media {
     Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "media_type")
+    @Column(name = "media_type", nullable = false, unique = true)
     MediaType mediaType;
 
     @ManyToOne

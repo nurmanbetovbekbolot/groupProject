@@ -42,10 +42,11 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public String deleteTagById(Long id) {
-        String result = "deleted " + tagRepo.findById(id);
+    public Boolean deleteTagById(Long id) {
         tagRepo.deleteById(id);
-        return result;
+        if(tagRepo.findById(id).isPresent()) {
+            return false;
+        } else return true;
     }
 
     @Override

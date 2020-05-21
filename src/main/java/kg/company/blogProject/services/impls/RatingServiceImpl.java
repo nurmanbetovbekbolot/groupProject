@@ -45,10 +45,11 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public String deleteRatingById(Long id) {
-        String result = "deleted " + ratingRepo.findById(id);
+    public Boolean deleteRatingById(Long id) {
         ratingRepo.deleteById(id);
-        return result;
+        if(ratingRepo.findById(id).isPresent()) {
+            return false;
+        } else return true;
     }
 
     @Override

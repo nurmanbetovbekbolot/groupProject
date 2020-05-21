@@ -4,6 +4,7 @@ import kg.company.blogProject.enums.Role;
 import kg.company.blogProject.services.UserService;
 import kg.company.blogProject.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,12 +40,13 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> delete(@PathVariable("id") Long id) {
-        userService.deleteUserById(id);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        if(userService.deleteUserById(id)) {
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/{nickname}")
-    public List<User> getByNickname(@PathVariable("name") String nickname) {
+    @GetMapping("/byNickname/{nickname}")
+    public List<User> getByNickname(@PathVariable("nickname") String nickname) {
         return userService.getAllUsersByNickname(nickname);
     }
 
@@ -58,23 +60,23 @@ public class UserController {
         return userService.getAllUsersByLastName(lastName);
     }
 
-    @GetMapping(params = {"first_name", "last_name"})
-    public List<User> getByNickname(@RequestParam("first_name") String firstName, @RequestParam("last_name") String lastName) {
+    @GetMapping("/byName/{first_name} {last_name}")
+    public List<User> getByNickname(@PathVariable("first_name") String firstName, @PathVariable("last_name") String lastName) {
         return userService.getAllUsersByFirstNameAndLastName(firstName, lastName);
     }
 
-    @GetMapping("/{date}")
-    public List<User> getByDate(@PathVariable("date") Date regDate) {
+    @GetMapping("/byRegDate/{date}")
+    public List<User> getByDate(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date regDate) {
         return userService.getAllUsersByRegistrationDate(regDate);
     }
 
-    @GetMapping(params = {"init", "final"})
-    public List<User> getByDateBetween(@RequestParam("init") Date initDate, @RequestParam("final") Date finalDate) {
+    @GetMapping("/byRegDate/{init}/{final}")
+    public List<User> getByDateBetween(@PathVariable("init") @DateTimeFormat(pattern = "yyyy-MM-dd") Date initDate, @PathVariable("final") @DateTimeFormat(pattern = "yyyy-MM-dd") Date finalDate) {
         return userService.getAllUsersByRegistrationDateBetween(initDate, finalDate);
     }
 
-    @GetMapping("/byDateGreaterThan/{date}")
-    public List<User> getByDateGreater(@PathVariable("date") Date date) {
+    @GetMapping("/byRegDateGreaterThan/{date}")
+    public List<User> getByDateGreater(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         return userService.getAllUsersByRegistrationDateGreaterThan(date);
     }
 

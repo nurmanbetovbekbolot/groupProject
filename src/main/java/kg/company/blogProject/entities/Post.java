@@ -39,7 +39,7 @@ public class Post {
     List<Tag> tags;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     Category category;
 
     @CreatedDate

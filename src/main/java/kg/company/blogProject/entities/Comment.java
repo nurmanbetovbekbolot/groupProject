@@ -2,8 +2,10 @@ package kg.company.blogProject.entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -28,4 +30,8 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     Post post;
+
+    @CreatedDate
+    @Column(name = "created_date")
+    Date createdDate = new Date();
 }

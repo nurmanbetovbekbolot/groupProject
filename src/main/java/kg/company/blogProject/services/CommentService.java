@@ -9,8 +9,9 @@ public interface CommentService {
     Comment getCommentById(Long id);
     List<Comment> getAllComments();
     Comment updateComment(Long id, Comment comment);
-    String deleteCommentById(Long id);
+    Boolean deleteCommentById(Long id);
     List<Comment> getAllCommentsByCommentText(String commentText);
     List<Comment> getAllCommentsByUserId(Long userId);
     List<Comment> getAllCommentsByPostId(Long postId);
+    Double timePassed(Long commentId);
 }

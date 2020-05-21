@@ -9,6 +9,6 @@ public interface CategoryService {
     Category getCategoryById(Long id);
     List<Category> getAllCategories();
     Category updateCategory(Long id, Category category);
-    String deleteCategoryById(Long categoryId);
+    Boolean deleteCategoryById(Long categoryId);
     List<Category> getAllCategoriesByName(String name);
 }

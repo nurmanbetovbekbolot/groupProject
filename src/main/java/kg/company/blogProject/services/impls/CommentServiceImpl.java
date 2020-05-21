@@ -44,10 +44,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public String deleteCommentById(Long id) {
-        String result = "deleted " + commentRepo.findById(id);
+    public Boolean deleteCommentById(Long id) {
         commentRepo.deleteById(id);
-        return result;
+        if(commentRepo.findById(id).isPresent()) {
+            return false;
+        } else return true;
     }
 
     @Override
@@ -63,5 +64,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> getAllCommentsByPostId(Long postId) {
         return commentRepo.getAllByPostId(postId);
+    }
+
+    @Override
+    public Double timePassed(Long commentId) {
+        return commentRepo.timePassed(commentId);
     }
 }

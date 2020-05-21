@@ -1,6 +1,8 @@
 package kg.company.blogProject.services.impls;
 
 import kg.company.blogProject.entities.Post;
+import kg.company.blogProject.entities.Rating;
+import kg.company.blogProject.models.PostRatings;
 import kg.company.blogProject.repos.PostRepo;
 import kg.company.blogProject.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +51,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public String deletePostById(Long id) {
-        String result = "deleted " + postRepo.findById(id);
+    public Boolean deletePostById(Long id) {
         postRepo.deleteById(id);
-        return result;
+        if(postRepo.findById(id).isPresent()) {
+            return false;
+        } else return true;
     }
 
     @Override
@@ -93,5 +96,25 @@ public class PostServiceImpl implements PostService {
     @Override
     public Integer getPostCountByUserId(Long userId) {
         return postRepo.getPostCountByUserId(userId);
+    }
+
+    @Override
+    public Integer getCommentCountByPostId(Long id) {
+        return postRepo.getCommentCountByPostId(id);
+    }
+
+    @Override
+    public Float getRatingByPostId(Long postId) {
+        return postRepo.getRatingByPostId(postId);
+    }
+
+    @Override
+    public List<PostRatings> getAllRatings(Long postId) {
+        return postRepo.getAllRatings(postId);
+    }
+
+    @Override
+    public Double timePassed(Long postId) {
+        return postRepo.timePassed(postId);
     }
 }

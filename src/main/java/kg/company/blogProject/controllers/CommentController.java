@@ -37,11 +37,12 @@ public class CommentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> delete(@PathVariable("id") Long id) {
-        commentService.deleteCommentById(id);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        if(commentService.deleteCommentById(id)) {
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/{text}")
+    @GetMapping("/byText/{text}")
     public List<Comment> getByText(@PathVariable("text") String text) {
         return commentService.getAllCommentsByCommentText(text);
     }
@@ -54,5 +55,10 @@ public class CommentController {
     @GetMapping("/byPost/{id}")
     public List<Comment> getByPost(@PathVariable("id") Long id) {
         return commentService.getAllCommentsByPostId(id);
+    }
+
+    @GetMapping("/{id}/tp")
+    public Double timePassed(@PathVariable("id") Long id) {
+        return commentService.timePassed(id);
     }
 }

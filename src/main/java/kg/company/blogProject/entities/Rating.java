@@ -18,7 +18,7 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    @Column(name = "value")
+    @Column(name = "value", unique = true)
     Integer value;
 
     @ManyToOne

@@ -38,11 +38,12 @@ public class TagController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> delete(@PathVariable("id") Long id) {
-        tagService.deleteTagById(id);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        if(tagService.deleteTagById(id)) {
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/{tag}")
+    @GetMapping("/byText/{tag}")
     public List<Tag> getByText(@PathVariable("tag") String tag) {
         return tagService.getAllTagsByTagText(tag);
     }
