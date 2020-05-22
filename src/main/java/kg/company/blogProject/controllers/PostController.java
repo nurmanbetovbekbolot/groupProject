@@ -108,7 +108,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}/tp")
-    public Double getTimePassed(@PathVariable("id") Long id) {
+    public Double    getTimePassed(@PathVariable("id") Long id) {
         return postService.timePassed(id);
     }
 }

@@ -3,7 +3,6 @@ package kg.company.blogProject.repos;
 import kg.company.blogProject.entities.User;
 import kg.company.blogProject.enums.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;

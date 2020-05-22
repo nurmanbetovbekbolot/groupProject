@@ -1,6 +1,6 @@
 package kg.company.blogProject.enums;
 
-public enum Role {
+public enum  Role {
     ADMIN,
     USER,
     SUPERUSER

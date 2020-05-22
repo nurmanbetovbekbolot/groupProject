@@ -81,7 +81,7 @@ public class UserController {
     }
 
     @GetMapping("/byRole/{role}")
-    public List<User> getByRole(@PathVariable("role") Role role) {
+    public List<User> getByRole(@PathVariable("role") Role role ) {
         return userService.getAllUsersByRole(role);
     }
 }

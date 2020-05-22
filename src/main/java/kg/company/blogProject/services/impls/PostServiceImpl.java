@@ -8,6 +8,7 @@ import kg.company.blogProject.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,8 @@ import java.util.Optional;
 public class PostServiceImpl implements PostService {
     @Autowired
     PostRepo postRepo;
+
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public Post savePost(Post post) {
