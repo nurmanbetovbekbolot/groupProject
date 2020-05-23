@@ -29,7 +29,7 @@ public class Rating {
     @JoinColumn(name = "post_id", nullable = false)
     Post post;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 }

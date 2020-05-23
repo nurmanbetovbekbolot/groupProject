@@ -22,10 +22,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    @Column(name = "nickname", nullable = false, unique = true)
+    @Column(name = "nickname", unique = true)
     String nickname;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     String password;
 
     @Email

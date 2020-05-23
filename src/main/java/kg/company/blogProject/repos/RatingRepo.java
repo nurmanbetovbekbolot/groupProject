@@ -1,6 +1,5 @@
 package kg.company.blogProject.repos;
 
-import kg.company.blogProject.entities.Post;
 import kg.company.blogProject.entities.Rating;
 import kg.company.blogProject.models.RatingModel;
 import org.springframework.data.jpa.repository.JpaRepository;

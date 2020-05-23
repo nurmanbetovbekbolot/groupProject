@@ -1,6 +1,5 @@
 package kg.company.blogProject.services;
 
-import kg.company.blogProject.entities.Post;
 import kg.company.blogProject.entities.Rating;
 import kg.company.blogProject.models.RatingModel;
 
