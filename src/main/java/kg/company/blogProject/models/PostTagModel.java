@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostTag {
+public class PostTagModel {
     Long post_id;
-    Long tag_text;
+    Long tag_id;
+    String tag_text;
 }

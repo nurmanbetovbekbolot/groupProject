@@ -19,6 +19,11 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    @Column(name = "tag_text")
+    @Column(name = "tag_text", unique = true)
     String tagText;
+
+    @Override
+    public String toString() {
+        return tagText;
+    }
 }

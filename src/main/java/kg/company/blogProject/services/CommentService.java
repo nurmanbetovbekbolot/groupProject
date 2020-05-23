@@ -12,6 +12,5 @@ public interface CommentService {
     Boolean deleteCommentById(Long id);
     List<Comment> getAllCommentsByCommentText(String commentText);
     List<Comment> getAllCommentsByUserId(Long userId);
-    List<Comment> getAllCommentsByPostId(Long postId);
-    Double timePassed(Long commentId);
+    String getTime(Long commentId);
 }

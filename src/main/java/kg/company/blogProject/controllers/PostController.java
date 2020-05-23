@@ -1,9 +1,9 @@
 package kg.company.blogProject.controllers;
 
 import kg.company.blogProject.entities.Post;
-import kg.company.blogProject.entities.Rating;
-import kg.company.blogProject.models.PostRatings;
-import kg.company.blogProject.repos.PostRepo;
+import kg.company.blogProject.models.CommentsOfPostModel;
+import kg.company.blogProject.models.PostModel;
+import kg.company.blogProject.models.PostRatingsModel;
 import kg.company.blogProject.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,12 +26,12 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> getAll() {
+    public List<PostModel> getAll() {
         return postService.getAllPosts();
     }
 
     @GetMapping("{id}")
-    public Post getById(@PathVariable("id") Long id) {
+    public PostModel getById(@PathVariable("id") Long id) {
         return postService.getPostById(id);
     }
 
@@ -47,52 +47,32 @@ public class PostController {
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/byCategoryName/{category_name}")
-    public List<Post> getByCategoryName(@PathVariable("category_name") String name) {
-        return postService.getAllPostsByCategoryName(name);
+    @GetMapping("/byCategory/{category_name}")
+    public List<PostModel> getByCategoryName(@PathVariable("category_name") String name) {
+        return postService.getPostsByCategoryName(name);
     }
 
     @GetMapping("/byTitle/{title}")
-    public List<Post> getByTitle(@PathVariable("title") String title) {
+    public List<PostModel> getByTitle(@PathVariable("title") String title) {
         return postService.getAllPostsByTitle(title);
     }
 
-    @GetMapping("/byUser/{id}")
-    public List<Post> getByUser(@PathVariable("id") Long userId) {
+    @GetMapping("/user/{id}")
+    public List<PostModel> getByUser(@PathVariable("id") Long userId) {
         return postService.getAllPostsByUserId(userId);
     }
 
-    @GetMapping("/byTime/{time}")
-    public List<Post> getByTime(@PathVariable("time") @DateTimeFormat(pattern = "yyyy-MM-dd") Date time) {
-        return postService.getAllPostsByPublicationTime(time);
-    }
-
-    @GetMapping("/byTimeExact/{time}")
-    public List<Post> getByTimeExact(@PathVariable("time") @DateTimeFormat(pattern = "yyyy-MM-dd") Date time) {
-        return postService.getAllPostsByPublicationTime(time);
-    }
-
-    @GetMapping("/byTime/{init}/{final}")
-    public List<Post> getByTimeBetween(@PathVariable("init")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date initDate, @PathVariable("final") @DateTimeFormat(pattern = "yyyy-MM-dd") Date finalDate) {
-        return postService.getAllPostsByPublicationTimeBetween(initDate, finalDate);
-    }
-
-    @GetMapping("/byTimeGreaterThan/{time}")
-    public List<Post> getByTimeGreaterThan(@PathVariable("time") @DateTimeFormat(pattern = "yyyy-MM-dd") Date time) {
-        return postService.getAllPostsByPublicationTimeGreaterThan(time);
-    }
-
     @GetMapping("/byTag/{tag}")
-    public List<Post> getByTag(@PathVariable("tag") Long tagId) {
-        return postService.getAllPostsByTag(tagId);
+    public List<PostModel> getByTag(@PathVariable("tag") String tag) {
+        return postService.getAllPostsByTag(tag);
     }
 
-    @GetMapping("/countById/{id}")
+    @GetMapping("/amount/{id}")
     public Integer getPostCount(@PathVariable("id") Long id) {
         return postService.getPostCountByUserId(id);
     }
 
-    @GetMapping("/commentCountByPost/{id}")
+    @GetMapping("/{id}/commentCount")
     public Integer getCommentCount(@PathVariable("id") Long id) {
         return postService.getCommentCountByPostId(id);
     }
@@ -103,13 +83,18 @@ public class PostController {
     }
 
     @GetMapping("/{id}/allRatings")
-    public List<PostRatings> getRatings(@PathVariable("id") Long id) {
+    public List<PostRatingsModel> getRatings(@PathVariable("id") Long id) {
         return postService.getAllRatings(id);
     }
 
     @GetMapping("/{id}/tp")
-    public Double    getTimePassed(@PathVariable("id") Long id) {
-        return postService.timePassed(id);
+    public String getTimePassed(@PathVariable("id") Long id) {
+        return postService.getTime(id);
+    }
+
+    @GetMapping("/{id}/comments")
+    public List<CommentsOfPostModel> getComments(@PathVariable("id") Long id) {
+        return postService.getComments(id);
     }
 }
 

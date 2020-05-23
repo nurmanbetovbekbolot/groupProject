@@ -6,6 +6,9 @@ import kg.company.blogProject.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +16,8 @@ import java.util.Optional;
 public class CommentServiceImpl implements CommentService {
     @Autowired
     CommentRepo commentRepo;
+
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public Comment saveComment(Comment comment) {
@@ -62,12 +67,40 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllCommentsByPostId(Long postId) {
-        return commentRepo.getAllByPostId(postId);
-    }
+    public String getTime(Long commentId) {
+        String result = "";
+        String createdDate = commentRepo.getTime(commentId);
+        String now = null;
+        Date n = null;
+        Date tp = null;
+        try {
+            now = format.format(new Date());
+            n = format.parse(now);
+            tp = format.parse(createdDate);
 
-    @Override
-    public Double timePassed(Long commentId) {
-        return commentRepo.timePassed(commentId);
+            long diff = Math.abs(n.getTime() - tp.getTime());
+
+            int diffSeconds = (int) (diff/1000);
+            int diffMinutes = diffSeconds / 60;
+            short diffHours = (short) (diffMinutes/60);
+            short diffDays = (short) (diffHours/ 24);
+
+            if(diffDays != 0 && diffDays == 1) {
+                result = diffDays + " day";
+            } else if (diffDays != 0 && diffDays != 1) {
+                result = diffDays + " days";
+            } else if (diffHours != 0 && diffHours == 1) {
+                result = diffHours + " hour";
+            } else if (diffHours != 0 && diffHours != 1) {
+                result = diffHours + " hours";
+            } else if (diffMinutes != 0 && diffMinutes == 1) {
+                result = diffMinutes + " minute";
+            } else if (diffMinutes != 0 && diffMinutes != 1) {
+                result = diffMinutes + " minutes";
+            } else result = diffSeconds + " seconds";
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

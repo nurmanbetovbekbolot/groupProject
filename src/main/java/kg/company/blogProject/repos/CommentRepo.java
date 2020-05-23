@@ -11,8 +11,6 @@ import java.util.List;
 public interface CommentRepo extends JpaRepository<Comment, Long> {
     List<Comment> getAllByCommentText(String commentText);
     List<Comment> getAllByUserId(Long id);
-    List<Comment> getAllByPostId(Long id);
-
-    @Query(value = "select date_part('day', age(now(), c.created_date)) from b_comment c where c.id = ?1", nativeQuery = true)
-    Double timePassed(Long commentId);
+    @Query(value = "select c.created_date from b_comment c where c.id = ?1", nativeQuery = true)
+    String getTime(Long commentId);
 }

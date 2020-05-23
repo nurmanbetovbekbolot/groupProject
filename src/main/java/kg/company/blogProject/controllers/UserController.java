@@ -1,6 +1,7 @@
 package kg.company.blogProject.controllers;
 
 import kg.company.blogProject.enums.Role;
+import kg.company.blogProject.models.UserModel;
 import kg.company.blogProject.services.UserService;
 import kg.company.blogProject.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,42 +47,27 @@ public class UserController {
     }
 
     @GetMapping("/byNickname/{nickname}")
-    public List<User> getByNickname(@PathVariable("nickname") String nickname) {
+    public List<UserModel> getByNickname(@PathVariable("nickname") String nickname) {
         return userService.getAllUsersByNickname(nickname);
     }
 
-    @GetMapping("/byFirstName/{first_name}")
-    public List<User> getByFirstName(@PathVariable("first_name") String firstName) {
-        return userService.getAllUsersByFirstName(firstName);
+    @GetMapping("/byFirstName")
+    public List<UserModel> getByFirstName(@RequestParam(value = "first_name") String firstName) {
+            return userService.getAllUsersByFirstName(firstName);
     }
 
-    @GetMapping("/byLastName/{last_name}")
-    public List<User> getByLastName(@PathVariable("last_name") String lastName) {
+    @GetMapping("/byLastName")
+    public List<UserModel> getByLastName(@RequestParam(value = "last_name") String lastName) {
         return userService.getAllUsersByLastName(lastName);
     }
 
-    @GetMapping("/byName/{first_name} {last_name}")
-    public List<User> getByNickname(@PathVariable("first_name") String firstName, @PathVariable("last_name") String lastName) {
+    @GetMapping("/byFullName")
+    public List<UserModel> getByFullName(@RequestParam(value = "first_name") String firstName, @RequestParam(value = "last_name") String lastName) {
         return userService.getAllUsersByFirstNameAndLastName(firstName, lastName);
     }
 
-    @GetMapping("/byRegDate/{date}")
-    public List<User> getByDate(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date regDate) {
-        return userService.getAllUsersByRegistrationDate(regDate);
-    }
-
-    @GetMapping("/byRegDate/{init}/{final}")
-    public List<User> getByDateBetween(@PathVariable("init") @DateTimeFormat(pattern = "yyyy-MM-dd") Date initDate, @PathVariable("final") @DateTimeFormat(pattern = "yyyy-MM-dd") Date finalDate) {
-        return userService.getAllUsersByRegistrationDateBetween(initDate, finalDate);
-    }
-
-    @GetMapping("/byRegDateGreaterThan/{date}")
-    public List<User> getByDateGreater(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-        return userService.getAllUsersByRegistrationDateGreaterThan(date);
-    }
-
-    @GetMapping("/byRole/{role}")
-    public List<User> getByRole(@PathVariable("role") Role role ) {
+    @GetMapping("/byRole")
+    public List<UserModel> getByRole(@RequestParam(value = "role") Role role) {
         return userService.getAllUsersByRole(role);
     }
 }
