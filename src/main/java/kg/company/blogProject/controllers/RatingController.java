@@ -2,6 +2,7 @@ package kg.company.blogProject.controllers;
 
 import kg.company.blogProject.entities.Post;
 import kg.company.blogProject.entities.Rating;
+import kg.company.blogProject.models.RatingModel;
 import kg.company.blogProject.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +23,12 @@ public class RatingController {
     }
 
     @GetMapping
-    public List<Rating> getAll() {
+    public List<RatingModel> getAll() {
         return ratingService.getAllRatings();
     }
 
     @GetMapping("/{id}")
-    public Rating getById(@PathVariable("id") Long id) {
+    public RatingModel getById(@PathVariable("id") Long id) {
         return ratingService.getRatingById(id);
     }
 
@@ -43,18 +44,18 @@ public class RatingController {
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/byValue/{value}")
-    public List<Rating> getByValue(@PathVariable("value") Integer value) {
+    @GetMapping("/byValue")
+    public List<RatingModel> getByValue(@RequestParam(value = "value") Integer value) {
         return ratingService.getAllByValue(value);
     }
 
-    @GetMapping("/byPost/{id}")
-    public List<Rating> getByPost(@PathVariable("id") Long id) {
+    @GetMapping("/byPost")
+    public List<RatingModel> getByPost(@RequestParam(value = "id") Long id) {
         return ratingService.getAllRatingsByPostId(id);
     }
 
-    @GetMapping("/byUser/{id}")
-    public List<Rating> getByUser(@PathVariable("id") Long id) {
+    @GetMapping("/byUser")
+    public List<RatingModel> getByUser(@RequestParam(value = "id") Long id) {
         return ratingService.getAllRatingsByUserId(id);
     }
 

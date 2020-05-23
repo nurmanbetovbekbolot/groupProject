@@ -4,6 +4,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @Getter
@@ -18,14 +20,16 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
+    @Min(value = 1, message = "Value cannot be less than 1")
+    @Max(value = 10, message = "Value cannot be greater than 10")
     @Column(name = "value", unique = true)
     Integer value;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id", nullable = false)
     Post post;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 }

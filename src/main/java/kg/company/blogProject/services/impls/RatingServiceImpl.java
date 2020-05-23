@@ -2,6 +2,7 @@ package kg.company.blogProject.services.impls;
 
 import kg.company.blogProject.entities.Post;
 import kg.company.blogProject.entities.Rating;
+import kg.company.blogProject.models.RatingModel;
 import kg.company.blogProject.repos.RatingRepo;
 import kg.company.blogProject.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +18,18 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public Rating save(Rating rating) {
+
         return ratingRepo.save(rating);
     }
 
     @Override
-    public Rating getRatingById(Long id) {
-        Optional<Rating> rating = ratingRepo.findById(id);
-        return rating.get();
+    public RatingModel getRatingById(Long id) {
+        return ratingRepo.getById(id);
     }
 
     @Override
-    public List<Rating> getAllRatings() {
-        return ratingRepo.findAll();
+    public List<RatingModel> getAllRatings() {
+        return ratingRepo.getAll();
     }
 
     @Override
@@ -53,18 +54,18 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public List<Rating> getAllByValue(Integer value) {
-        return ratingRepo.findAllByValue(value);
+    public List<RatingModel> getAllByValue(Integer value) {
+        return ratingRepo.getAllByValue(value);
     }
 
     @Override
-    public List<Rating> getAllRatingsByPostId(Long postId) {
-        return ratingRepo.findAllByPost_Id(postId);
+    public List<RatingModel> getAllRatingsByPostId(Long postId) {
+        return ratingRepo.getAllByPost(postId);
     }
 
     @Override
-    public List<Rating> getAllRatingsByUserId(Long userId) {
-        return ratingRepo.findAllByUser_Id(userId);
+    public List<RatingModel> getAllRatingsByUserId(Long userId) {
+        return ratingRepo.getAllByUser(userId);
     }
 
     @Override

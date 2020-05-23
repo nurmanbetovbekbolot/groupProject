@@ -1,17 +1,17 @@
 package kg.company.blogProject.services.impls;
 
 import kg.company.blogProject.entities.Post;
-import kg.company.blogProject.entities.Rating;
-import kg.company.blogProject.models.PostRatings;
+import kg.company.blogProject.models.CommentsOfPostModel;
+import kg.company.blogProject.models.PostModel;
+import kg.company.blogProject.models.PostRatingsModel;
 import kg.company.blogProject.repos.PostRepo;
 import kg.company.blogProject.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -26,14 +26,27 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getAllPosts() {
-        return postRepo.findAll();
+    public List<PostModel> getAllPosts() {
+        List<PostModel> postModels = postRepo.getAll();
+        for(int j = 0; j < postModels.size(); j++) {
+            Optional<Post> post = postRepo.findById(postModels.get(j).getId());
+            Post temp = post.get();
+            postModels.get(j).setTags(Arrays.asList(temp.getTags().toString()
+                    .substring(1, temp.getTags().toString().length() - 1).split(", "))); //присвоить лист из тэгов от поста к моделькам
+        }
+        return postModels;
     }
 
     @Override
-    public Post getPostById(Long id) {
+    public PostModel getPostById(Long id) {
+        PostModel postModel = postRepo.getById(id);
         Optional<Post> post = postRepo.findById(id);
-        return post.get();
+        Post temp = post.get();
+        if(postModel != null) {
+            postModel.setTags(Arrays.asList(temp.getTags().toString()
+                    .substring(1, temp.getTags().toString().length() - 1).split(", "))); //присвоить лист из тэгов от поста к моделькам
+        } else return new PostModel();
+        return postModel;
     }
 
     @Override
@@ -62,38 +75,64 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getAllPostsByCategoryName(String categoryName) {
-        return postRepo.getAllByCategory_Name(categoryName);
+    public List<PostModel> getPostsByCategoryName(String categoryName) {
+        List<PostModel> postModels = postRepo.getByCategoryName(categoryName);
+        List<Post> posts = postRepo.getAllByCategoryName(categoryName);
+        for(int j = 0; j < postModels.size(); j++) {
+            Optional<Post> post = postRepo.findById(postModels.get(j).getId());
+            Post temp = post.get();
+            postModels.get(j).setTags(Arrays.asList(temp.getTags().toString()
+                    .substring(1, temp.getTags().toString().length() - 1).split(", "))); //присвоить лист из тэгов от поста к моделькам
+        }
+        return postModels;
     }
 
     @Override
-    public List<Post> getAllPostsByTitle(String title) {
-        return postRepo.getAllByTitle(title);
+    public List<PostModel> getAllPostsByTitle(String title) {
+        List<PostModel> postModels = postRepo.getByTitle(title);
+        List<Post> posts = postRepo.getAllByTitle(title);
+        for(int j = 0; j < postModels.size(); j++) {
+            Optional<Post> post = postRepo.findById(postModels.get(j).getId());
+            Post temp = post.get();
+            postModels.get(j).setTags(Arrays.asList(temp.getTags().toString()
+                    .substring(1, temp.getTags().toString().length() - 1).split(", "))); //присвоить лист из тэгов от поста к моделькам
+        }
+        return postModels;
     }
 
     @Override
-    public List<Post> getAllPostsByUserId(Long userId) {
-        return postRepo.getAllByUserId(userId);
+    public List<PostModel> getAllPostsByUserId(Long userId) {
+        List<PostModel> postModels = postRepo.getPostsByUserId(userId);
+        List<Post> posts = postRepo.getAllByUserId(userId);
+        for(int j = 0; j < postModels.size(); j++) {
+            Optional<Post> post = postRepo.findById(postModels.get(j).getId());
+            Post temp = post.get();
+            postModels.get(j).setTags(Arrays.asList(temp.getTags().toString()
+                    .substring(1, temp.getTags().toString().length() - 1).split(", "))); //присвоить лист из тэгов от поста к моделькам
+        }
+        return postModels;
     }
 
     @Override
-    public List<Post> getAllPostsByPublicationTime(Date publicationTime) {
-        return postRepo.getAllByPublicationTime(publicationTime);
+    public List<PostModel> getAllPostsByTag(String tag) {
+        List<PostModel> postModels = postRepo.getAllByTag(tag);
+        for(int i = 0; i < postModels.size(); i++) {
+            Optional<Post> post = postRepo.findById(postModels.get(i).getId());
+            Post temp = post.get();
+            postModels.get(i).setTags(Arrays.asList(temp.getTags().toString()
+                    .substring(1, temp.getTags().toString().length() - 1).split(", "))); //присвоить лист из тэгов от поста к моделькам
+        }
+        return postModels;
     }
 
     @Override
-    public List<Post> getAllPostsByPublicationTimeBetween(Date intiPublicationTime, Date finalPublicationTime) {
-        return postRepo.getAllByPublicationTimeBetween(intiPublicationTime, finalPublicationTime);
+    public List<String> getTagsByPost(Long postId) {
+        return postRepo.getTagsByPost(postId);
     }
 
     @Override
-    public List<Post> getAllPostsByPublicationTimeGreaterThan(Date initPublicationTime) {
-        return postRepo.getAllByPublicationTimeGreaterThan(initPublicationTime);
-    }
-
-    @Override
-    public List<Post> getAllPostsByTag(Long tagId) {
-        return postRepo.getAllByTag(tagId);
+    public List<Post> getByTag(String tag) {
+        return postRepo.getByTag(tag);
     }
 
     @Override
@@ -112,12 +151,50 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostRatings> getAllRatings(Long postId) {
+    public List<PostRatingsModel> getAllRatings(Long postId) {
         return postRepo.getAllRatings(postId);
     }
 
     @Override
-    public Double timePassed(Long postId) {
-        return postRepo.timePassed(postId);
+    public String getTime(Long postId) {
+        String result = "";
+        String createdDate = postRepo.getPublicationTime(postId);
+        String now = null;
+        Date n = null;
+        Date tp = null;
+        try {
+            now = format.format(new Date());
+            n = format.parse(now);
+            tp = format.parse(createdDate);
+
+            long diff = Math.abs(n.getTime() - tp.getTime());
+
+            int diffSeconds = (int) (diff/1000);
+            int diffMinutes = diffSeconds / 60;
+            short diffHours = (short) (diffMinutes/60);
+            short diffDays = (short) (diffHours/ 24);
+
+            if(diffDays != 0 && diffDays == 1) {
+                result = diffDays + " day";
+            } else if (diffDays != 0 && diffDays != 1) {
+                result = diffDays + " days";
+            } else if (diffHours != 0 && diffHours == 1) {
+                result = diffHours + " hour";
+            } else if (diffHours != 0 && diffHours != 1) {
+                result = diffHours + " hours";
+            } else if (diffMinutes != 0 && diffMinutes == 1) {
+                result = diffMinutes + " minute";
+            } else if (diffMinutes != 0 && diffMinutes != 1) {
+                result = diffMinutes + " minutes";
+            } else result = diffSeconds + " seconds";
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public List<CommentsOfPostModel> getComments(Long postId) {
+        return postRepo.getComments(postId);
     }
 }

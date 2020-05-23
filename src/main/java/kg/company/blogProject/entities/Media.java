@@ -23,7 +23,7 @@ public class Media {
     @Column(name = "media_type", nullable = false, unique = true)
     MediaType mediaType;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id", nullable = false)
     Post post;
 }

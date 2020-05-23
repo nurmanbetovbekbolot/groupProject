@@ -2,8 +2,8 @@ package kg.company.blogProject.services;
 
 import kg.company.blogProject.entities.User;
 import kg.company.blogProject.enums.Role;
+import kg.company.blogProject.models.UserModel;
 
-import java.util.Date;
 import java.util.List;
 
 public interface UserService {
@@ -12,12 +12,9 @@ public interface UserService {
     List<User> getAllUsers();
     User updateUser(Long id, User user);
     Boolean deleteUserById(Long id);
-    List<User> getAllUsersByNickname(String nickname);
-    List<User> getAllUsersByFirstName(String firstName);
-    List<User> getAllUsersByLastName(String lastName);
-    List<User> getAllUsersByFirstNameAndLastName(String firstName, String lastName);
-    List<User> getAllUsersByRegistrationDate(Date registrationDate);
-    List<User> getAllUsersByRegistrationDateBetween(Date initRegistrationDate, Date finalRegistrationDate);
-    List<User> getAllUsersByRegistrationDateGreaterThan(Date initRegistrationDate);
-    List<User> getAllUsersByRole(Role role);
+    List<UserModel> getAllUsersByNickname(String nickname);
+    List<UserModel> getAllUsersByFirstName(String firstName);
+    List<UserModel> getAllUsersByLastName(String lastName);
+    List<UserModel> getAllUsersByFirstNameAndLastName(String firstName, String lastName);
+    List<UserModel> getAllUsersByRole(Role role);
 }

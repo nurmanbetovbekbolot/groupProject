@@ -1,30 +1,49 @@
 package kg.company.blogProject.repos;
 
 import kg.company.blogProject.entities.Post;
-import kg.company.blogProject.models.PostRatings;
+import kg.company.blogProject.models.CommentsOfPostModel;
+import kg.company.blogProject.models.PostModel;
+import kg.company.blogProject.models.PostRatingsModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface PostRepo extends JpaRepository<Post, Long> {
-    List<Post> getAllByCategory_Name(String category);
+    @Query(value = "select new kg.company.blogProject.models.PostModel(p.id, p.title, p.textBody, p.user.id, p.category.name, p.publicationTime, p.shortDescription)" +
+            "from Post p where p.id = :id")
+    PostModel getById(Long id);
+
+    @Query(value = "select new kg.company.blogProject.models.PostModel(p.id, p.title, p.textBody, p.user.id, p.category.name, p.publicationTime, p.shortDescription)" +
+            "from Post p")
+    List<PostModel> getAll();
+
+    List<Post> getAllByCategoryName(String category);
+    @Query(value = "select new kg.company.blogProject.models.PostModel(p.id, p.title, p.textBody, p.user.id, p.category.name, p.publicationTime, p.shortDescription)" +
+            "from Post p join p.category c where c.name = :category")
+    List<PostModel> getByCategoryName(String category);
 
     List<Post> getAllByTitle(String title);
+    @Query(value = "select new kg.company.blogProject.models.PostModel(p.id, p.title, p.textBody, p.user.id, p.category.name, p.publicationTime, p.shortDescription)" +
+            "from Post p where p.title = :title")
+    List<PostModel> getByTitle(String title);
 
-    List<Post> getAllByUserId(Long user_id);
+    List<Post> getAllByUserId(Long userId);
+    @Query(value = "select new kg.company.blogProject.models.PostModel(p.id, p.title, p.textBody, p.user.id, p.category.name, p.publicationTime, p.shortDescription)" +
+            "from Post p join p.user u where u.id = :userId")
+    List<PostModel> getPostsByUserId(Long userId);
 
-    List<Post> getAllByPublicationTime(Date publicationTime);
+    @Query(value = "select p from Post p join p.tags t where t.tagText = :tag")
+    List<Post> getByTag(String tag);
 
-    List<Post> getAllByPublicationTimeBetween(Date initPublicationTime, Date finalPublicationTime);
+    @Query(value = "select new kg.company.blogProject.models.PostModel(p.id, p.title, p.textBody, p.user.id, p.category.name, p.publicationTime, p.shortDescription)" +
+            "from Post p join p.tags t where t.tagText = :tag")
+    List<PostModel> getAllByTag(String tag);
 
-    List<Post> getAllByPublicationTimeGreaterThan(Date initRegistrationDate);
-
-    @Query(value = "select p.* from b_post p left join b_tag t on p.tag_id = t.id where t.id = ?1", nativeQuery = true)
-    List<Post> getAllByTag(Long tagId);
+    @Query(value = "select t.tagText from Post p join p.tags t where p.id = :postId", nativeQuery = true)
+    public List<String> getTagsByPost(Long postId);
 
     @Query(value = "select count(p.id) as post_count from b_post p right join b_user u on p.user_id = u.id where user_id = ?1", nativeQuery = true)
     Integer getPostCountByUserId(Long userId);
@@ -35,10 +54,16 @@ public interface PostRepo extends JpaRepository<Post, Long> {
     @Query(value = "select avg(r.value) from b_rating r left join b_post p on p.id = r.post_id where r.post_id = ?1", nativeQuery = true)
     Float getRatingByPostId(Long postId);
 
-    @Query(value = "select new kg.company.blogProject.models.PostRatings(r.value, r.user.id)" +
+    @Query(value = "select new kg.company.blogProject.models.PostRatingsModel(r.value, r.user.id)" +
             "from Rating r join r.post p where r.post.id = :postId")
-    List<PostRatings> getAllRatings(Long postId);
+    List<PostRatingsModel> getAllRatings(Long postId);
 
-    @Query(value = "select date_part('day', age(now(), p.publication_time)) from b_post p where p.id = ?1", nativeQuery = true)
-    Double timePassed(Long postId);
+    @Query(value = "select p.publication_time from b_post p where p.id = ?1", nativeQuery = true)
+    String getPublicationTime(Long postId);
+
+    @Query(value = "select new kg.company.blogProject.models.CommentsOfPostModel(c.commentText, c.user.id)" +
+            "from Comment c join c.post p where c.post.id = :postId")
+    List<CommentsOfPostModel> getComments(Long postId);
+
+
 }

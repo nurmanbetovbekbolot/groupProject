@@ -52,13 +52,8 @@ public class CommentController {
         return commentService.getAllCommentsByUserId(id);
     }
 
-    @GetMapping("/byPost/{id}")
-    public List<Comment> getByPost(@PathVariable("id") Long id) {
-        return commentService.getAllCommentsByPostId(id);
-    }
-
     @GetMapping("/{id}/tp")
-    public Double timePassed(@PathVariable("id") Long id) {
-        return commentService.timePassed(id);
+    public String timePassed(@PathVariable("id") Long id) {
+        return commentService.getTime(id);
     }
 }

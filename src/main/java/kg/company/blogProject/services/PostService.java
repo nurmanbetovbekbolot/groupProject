@@ -1,28 +1,33 @@
 package kg.company.blogProject.services;
 
 import kg.company.blogProject.entities.Post;
-import kg.company.blogProject.entities.Rating;
-import kg.company.blogProject.models.PostRatings;
+import kg.company.blogProject.models.CommentsOfPostModel;
+import kg.company.blogProject.models.PostModel;
+import kg.company.blogProject.models.PostRatingsModel;
 
 import java.util.Date;
 import java.util.List;
 
 public interface PostService {
     Post savePost(Post post);
-    List<Post> getAllPosts();
-    Post getPostById(Long id);
+    List<PostModel> getAllPosts();
+    PostModel getPostById(Long id);
     Post updatePost(Long id, Post post);
     Boolean deletePostById(Long id);
-    List<Post> getAllPostsByCategoryName(String categoryName);
-    List<Post> getAllPostsByTitle(String title);
-    List<Post> getAllPostsByUserId(Long userId);
-    List<Post> getAllPostsByPublicationTime(Date publicationTime);
-    List<Post> getAllPostsByPublicationTimeBetween(Date intiPublicationTime, Date finalPublicationTime);
-    List<Post> getAllPostsByPublicationTimeGreaterThan(Date initPublicationTime);
-    List<Post> getAllPostsByTag(Long tagId);
+
+    List<PostModel> getPostsByCategoryName(String categoryName);
+
+    List<PostModel> getAllPostsByTitle(String title);
+
+    List<PostModel> getAllPostsByUserId(Long userId);
+
+    List<PostModel> getAllPostsByTag(String tag);
+    List<String> getTagsByPost(Long postId);
+    List<Post> getByTag(String tag);
     Integer getPostCountByUserId(Long userId);
     Integer getCommentCountByPostId(Long id);
     Float getRatingByPostId(Long postId);
-    List<PostRatings> getAllRatings(Long postId);
-    Double timePassed(Long postId);
+    List<PostRatingsModel> getAllRatings(Long postId);
+    String getTime(Long postId);
+    List<CommentsOfPostModel> getComments(Long postId);
 }
