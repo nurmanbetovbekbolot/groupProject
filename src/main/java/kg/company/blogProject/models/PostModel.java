@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PostModel {
-    @JsonIgnore
     Long id;
     String title;
     String textBody;

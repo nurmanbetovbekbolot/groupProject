@@ -25,11 +25,11 @@ public class Rating {
     @Column(name = "value", unique = true)
     Integer value;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     Post post;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 }

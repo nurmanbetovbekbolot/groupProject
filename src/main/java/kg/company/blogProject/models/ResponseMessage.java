@@ -7,10 +7,10 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RatingModel {
-    Long id;
-    Integer value;
-    Long postId;
-    Long userId;
+public class ResponseMessage {
+    Boolean success;
+    String message;
+    Object json;
 }

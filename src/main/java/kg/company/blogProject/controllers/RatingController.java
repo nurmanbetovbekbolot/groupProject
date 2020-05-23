@@ -3,6 +3,7 @@ package kg.company.blogProject.controllers;
 import kg.company.blogProject.entities.Post;
 import kg.company.blogProject.entities.Rating;
 import kg.company.blogProject.models.RatingModel;
+import kg.company.blogProject.models.ResponseMessage;
 import kg.company.blogProject.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,20 @@ public class RatingController {
     RatingService ratingService;
 
     @PostMapping
-    public Rating save(@RequestBody Rating rating) {
-        return ratingService.save(rating);
+    public ResponseMessage save(@RequestBody Rating rating) {
+        RatingModel r = new RatingModel();
+        r.setId(rating.getId());
+        try {
+            return ResponseMessage.builder()
+                    .success(true)
+                    .json(ratingService.save(r))
+                    .build();
+        } catch (Exception e) {
+            return ResponseMessage.builder()
+                    .success(false)
+                    .message(e.getMessage())
+                    .build();
+        }
     }
 
     @GetMapping

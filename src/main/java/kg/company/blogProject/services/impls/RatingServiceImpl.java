@@ -1,9 +1,14 @@
 package kg.company.blogProject.services.impls;
 
 import kg.company.blogProject.entities.Post;
+import kg.company.blogProject.entities.User;
 import kg.company.blogProject.entities.Rating;
+import kg.company.blogProject.exception.PostNotFoundException;
+import kg.company.blogProject.exception.UserNotFoundException;
 import kg.company.blogProject.models.RatingModel;
+import kg.company.blogProject.repos.PostRepo;
 import kg.company.blogProject.repos.RatingRepo;
+import kg.company.blogProject.repos.UserRepo;
 import kg.company.blogProject.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +20,23 @@ import java.util.Optional;
 public class RatingServiceImpl implements RatingService {
     @Autowired
     RatingRepo ratingRepo;
+    @Autowired
+    PostRepo postRepo;
+    @Autowired
+    UserRepo userRepo;
 
     @Override
-    public Rating save(Rating rating) {
-
-        return ratingRepo.save(rating);
+    public Rating save(RatingModel rating) throws PostNotFoundException, UserNotFoundException {
+        Rating r = new Rating();
+        Optional<Post> p = postRepo.findById(rating.getPostId());
+        Optional<User> u = userRepo.findById(rating.getUserId());
+        Post post = p.orElseThrow(() -> new PostNotFoundException());
+        User user = u.orElseThrow(() -> new UserNotFoundException());
+        r.setId(rating.getId());
+        r.setValue(rating.getValue());
+        r.setPost(post);
+        r.setUser(user);
+        return ratingRepo.save(r);
     }
 
     @Override
