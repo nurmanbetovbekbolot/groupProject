@@ -42,7 +42,7 @@ public interface PostRepo extends JpaRepository<Post, Long> {
             "from Post p join p.tags t where t.tagText = :tag")
     List<PostModel> getAllByTag(String tag);
 
-    @Query(value = "select t.tagText from Post p join p.tags t where p.id = :postId", nativeQuery = true)
+    @Query(value = "select t.tagText from Post p join p.tags t where p.id = :postId")
     public List<String> getTagsByPost(Long postId);
 
     @Query(value = "select count(p.id) as post_count from b_post p right join b_user u on p.user_id = u.id where user_id = ?1", nativeQuery = true)

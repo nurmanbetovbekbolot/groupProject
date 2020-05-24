@@ -53,9 +53,4 @@ public class TagServiceImpl implements TagService {
     public List<Tag> getAllTagsByTagText(String tagText) {
         return tagRepo.getAllByTagText(tagText);
     }
-
-//    @Override
-//    public List<Tag> getAllTagsByPost(Long postId) {
-//        return tagRepo.getAllByPost(postId);
-//    }
 }

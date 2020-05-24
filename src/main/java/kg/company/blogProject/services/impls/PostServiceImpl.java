@@ -1,10 +1,12 @@
 package kg.company.blogProject.services.impls;
 
 import kg.company.blogProject.entities.Post;
+import kg.company.blogProject.entities.Tag;
 import kg.company.blogProject.models.CommentsOfPostModel;
 import kg.company.blogProject.models.PostModel;
 import kg.company.blogProject.models.PostRatingsModel;
 import kg.company.blogProject.repos.PostRepo;
+import kg.company.blogProject.repos.TagRepo;
 import kg.company.blogProject.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,10 +31,8 @@ public class PostServiceImpl implements PostService {
     public List<PostModel> getAllPosts() {
         List<PostModel> postModels = postRepo.getAll();
         for(int j = 0; j < postModels.size(); j++) {
-            Optional<Post> post = postRepo.findById(postModels.get(j).getId());
-            Post temp = post.get();
-            postModels.get(j).setTags(Arrays.asList(temp.getTags().toString()
-                    .substring(1, temp.getTags().toString().length() - 1).split(", "))); //присвоить лист из тэгов от поста к моделькам
+            List<String> tags = postRepo.getTagsByPost(postModels.get(j).getId());
+            postModels.get(j).setTags(tags); //присвоить лист из тэгов от поста к моделькам
         }
         return postModels;
     }
@@ -40,11 +40,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostModel getPostById(Long id) {
         PostModel postModel = postRepo.getById(id);
-        Optional<Post> post = postRepo.findById(id);
-        Post temp = post.get();
         if(postModel != null) {
-            postModel.setTags(Arrays.asList(temp.getTags().toString()
-                    .substring(1, temp.getTags().toString().length() - 1).split(", "))); //присвоить лист из тэгов от поста к моделькам
+            List<String> tags = postRepo.getTagsByPost(postModel.getId());
+            postModel.setTags(tags); //присвоить лист из тэгов от поста к моделькам
         } else return new PostModel();
         return postModel;
     }
@@ -77,12 +75,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostModel> getPostsByCategoryName(String categoryName) {
         List<PostModel> postModels = postRepo.getByCategoryName(categoryName);
-        List<Post> posts = postRepo.getAllByCategoryName(categoryName);
         for(int j = 0; j < postModels.size(); j++) {
-            Optional<Post> post = postRepo.findById(postModels.get(j).getId());
-            Post temp = post.get();
-            postModels.get(j).setTags(Arrays.asList(temp.getTags().toString()
-                    .substring(1, temp.getTags().toString().length() - 1).split(", "))); //присвоить лист из тэгов от поста к моделькам
+            List<String> tags = postRepo.getTagsByPost(postModels.get(j).getId());
+            postModels.get(j).setTags(tags); //присвоить лист из тэгов от поста к моделькам
         }
         return postModels;
     }
@@ -90,12 +85,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostModel> getAllPostsByTitle(String title) {
         List<PostModel> postModels = postRepo.getByTitle(title);
-        List<Post> posts = postRepo.getAllByTitle(title);
         for(int j = 0; j < postModels.size(); j++) {
-            Optional<Post> post = postRepo.findById(postModels.get(j).getId());
-            Post temp = post.get();
-            postModels.get(j).setTags(Arrays.asList(temp.getTags().toString()
-                    .substring(1, temp.getTags().toString().length() - 1).split(", "))); //присвоить лист из тэгов от поста к моделькам
+            List<String> tags = postRepo.getTagsByPost(postModels.get(j).getId());
+            postModels.get(j).setTags(tags); //присвоить лист из тэгов от поста к моделькам
         }
         return postModels;
     }
@@ -103,12 +95,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostModel> getAllPostsByUserId(Long userId) {
         List<PostModel> postModels = postRepo.getPostsByUserId(userId);
-        List<Post> posts = postRepo.getAllByUserId(userId);
         for(int j = 0; j < postModels.size(); j++) {
-            Optional<Post> post = postRepo.findById(postModels.get(j).getId());
-            Post temp = post.get();
-            postModels.get(j).setTags(Arrays.asList(temp.getTags().toString()
-                    .substring(1, temp.getTags().toString().length() - 1).split(", "))); //присвоить лист из тэгов от поста к моделькам
+            List<String> tags = postRepo.getTagsByPost(postModels.get(j).getId());
+            postModels.get(j).setTags(tags);//присвоить лист из тэгов от поста к моделькам
         }
         return postModels;
     }
@@ -117,10 +106,8 @@ public class PostServiceImpl implements PostService {
     public List<PostModel> getAllPostsByTag(String tag) {
         List<PostModel> postModels = postRepo.getAllByTag(tag);
         for(int i = 0; i < postModels.size(); i++) {
-            Optional<Post> post = postRepo.findById(postModels.get(i).getId());
-            Post temp = post.get();
-            postModels.get(i).setTags(Arrays.asList(temp.getTags().toString()
-                    .substring(1, temp.getTags().toString().length() - 1).split(", "))); //присвоить лист из тэгов от поста к моделькам
+            List<String> tags = postRepo.getTagsByPost(postModels.get(i).getId());
+            postModels.get(i).setTags(tags); //присвоить лист из тэгов от поста к моделькам
         }
         return postModels;
     }
